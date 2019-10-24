@@ -1,0 +1,36 @@
+# YAML Ain't Markup Language
+Person:
+ name: &nam "Narayanan"
+ occupation: 'programmer'
+ age: !!float 23  #23.0
+ gpa: !!str 3.5  #"3.5"
+ fav_num: 1e+10
+ male: true
+ brithday: 1985-04-16 03:15:22 #ISO Standard
+ flaws: null
+ hobbies:
+ - hiking
+ - movies
+ - riding bike
+ movies: ["Dark Knight", "Good Will Hunting"]
+ firends:
+ - name: "Steph"
+   age: 22
+ - {name: "Adam", age:22}
+ -
+   name: "Joe"
+   age: 23
+ descriptiono: >
+     Narayanan is a senior devops engineer strong
+     in Python, AWS, Terraform and CI, CD.
+ signature: |
+     Thanks and Regards
+     Narayanan Krishnan
+     Devops Engineer
+ id: *nam  # This is called anchoring, it will hold the value of "Narayanan"
+
+ base: &base
+   var1: value1
+
+ foo:
+   <<: *base # This will get rendered as var1: value1

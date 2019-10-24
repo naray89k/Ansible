@@ -1,0 +1,32 @@
+Ansible Configuration File Procedence:
+--------------------------------------
+1. ANSIBLE_CONFIG
+2. ./ansible.cfg
+3. ~/.ansible.cfg
+4. /etc/ansible/ansible.cfg
+
+
+==================================
+
+Ansible commands:
+-----------------
+ansible --list-hosts all
+ansible --list-hosts "*"
+Ansible --list-hosts load_balancer
+ansible --list-hosts webserver
+ansible --list-hosts webserver[0]
+ansible --list-hosts db01
+ansible --list-hosts database,control_server
+ansible --list-hosts \!control_server
+
+
+Tasks:
+======
+-m --> module
+-a --> arguments
+===================
+ansible -m ping all
+ansible -m command -a "hostname" all
+
+==== command module is the default module which will be run by ansible. 
+ansible -a "hostname" all

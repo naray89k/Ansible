@@ -1,0 +1,15 @@
+---
+- hosts:               database
+  become:              yes
+  tasks:
+    - name:            Install mysql-server
+      apt:
+        force_apt_get: yes
+        name:          mysql-server
+        state:         present
+        update_cache:  yes
+    - name:            ensure mysql started
+      service:
+        name:          mysql
+        state:         started
+        enabled:       yes

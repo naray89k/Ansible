@@ -1,0 +1,5 @@
+---
+ - hosts: all
+   tasks:
+       - name: update the yum repository
+         yum: update_only=yes
