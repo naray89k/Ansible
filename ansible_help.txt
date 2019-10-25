@@ -28,5 +28,6 @@ Tasks:
 ansible -m ping all
 ansible -m command -a "hostname" all
 
-==== command module is the default module which will be run by ansible. 
+==== command module is the default module which will be run by ansible.
 ansible -a "hostname" all
+ansible -a "netstat -an" dbserver

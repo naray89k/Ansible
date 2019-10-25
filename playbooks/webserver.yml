@@ -1,5 +1,5 @@
 ---
-- hosts:               webserver
+- hosts:               web_server
   become:              true
   tasks:
     - name:            install apache2
@@ -9,6 +9,7 @@
           - libapache2-mod-wsgi
           - python-pip
           - python-virtualenv
+          - python-mysqldb
         state:         present
         update_cache:  yes
         force_apt_get: yes
