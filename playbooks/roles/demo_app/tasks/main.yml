@@ -1,0 +1,31 @@
+---
+- name:            install apache2
+  apt:
+    name:
+      - python-pip
+      - python-virtualenv
+      - python-mysqldb
+    state:         present
+    update_cache:  yes
+    force_apt_get: yes
+
+- name:            copy demo app Source
+  copy:
+    src:           ../ansible_demo_app/app/
+    dest:          /var/www/demo
+    mode:          0755
+  notify:          restart apache2
+
+- name:            copy apache virtual host config
+  copy:
+    src:           ../ansible_demo_app/demo.conf
+    dest:          /etc/apache2/sites-available
+    mode:          0755
+  notify:          restart apache2
+
+- name:            setup python virtual environment
+  pip:
+    requirements:  /var/www/demo/requirements.txt
+    virtualenv:    /var/www/demo/.venv
+  notify:          restart apache2
+- wait_for:        port=80

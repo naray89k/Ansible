@@ -1,0 +1,5 @@
+---
+#- include: control_sever.yml
+- include: database.yml
+- include: webserver.yml
+- include: load_balancer.yml
