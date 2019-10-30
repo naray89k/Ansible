@@ -1,5 +1,6 @@
 ---
- - hosts: all
+ - hosts:        all
+   gather_facts: false
    tasks:
-       - name: update the yum repository
-         yum: update_only=yes
+       - name:   update the yum repository
+         yum:    update_only=yes

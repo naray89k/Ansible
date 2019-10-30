@@ -1,5 +1,6 @@
 ---
-- hosts:  load_balancer
-  become: yes
+- hosts:        load_balancer
+  become:       yes
+  gather_facts: false
   roles:
     - nginx

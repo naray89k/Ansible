@@ -6,6 +6,7 @@
     state:         present
   with_items:
     - dbserver
+  tags:            [ 'configure' ]
 
 - name:            Install Tools
   apt:
@@ -13,36 +14,35 @@
     name:
       - python-mysqldb
     state:         present
-    update_cache:  yes
+  tags:            [ 'packages' ]
 
 - name:            Install mysql-server
   apt:
     force_apt_get: yes
     name:          mysql-server
     state:         present
-    update_cache:  yes
+  tags:            [ 'packages' ]
 
 - name:            ensure mysql listening on all ports
   lineinfile:
     dest:          /etc/mysql/my.cnf
     regexp:        ^bind-address
-    line:          "bind-address = {{ ansible_eth0.ipv4.address }}"
+    line:          "bind-address = 0.0.0.0"
   notify:          restart mysql
-- wait_for:
-    host:          "{{ ansible_eth0.ipv4.address }}"
-    port:          3306
-    state:         started
+  tags:            [ 'configure' ]
 
 - name:            ensure mysql started
   service:
     name:          mysql
     state:         started
     enabled:       yes
+  tags:            [ 'services' ]
 
 - name:            create demo database
   mysql_db:
     name:          "{{ db_name }}"
     state:         present
+  tags:            [ 'configure' ]
 
 - name:            create demo user
   mysql_user:
@@ -51,3 +51,4 @@
     priv:          "{{ db_name }}.*:ALL"
     host:          "{{ db_user_host }}"
     state:         present
+  tags:            [ 'configure' ]

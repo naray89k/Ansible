@@ -8,3 +8,4 @@
     - loadbalancer
     - webserver
     - dbserver
+  tags:       [ 'packages' ]

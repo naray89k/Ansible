@@ -1,31 +1,50 @@
 ---
-- name:            install apache2
+- name:            install apache2 python libs
   apt:
     name:
       - python-pip
       - python-virtualenv
       - python-mysqldb
     state:         present
-    update_cache:  yes
     force_apt_get: yes
+  tags:
+    - packages
 
 - name:            copy demo app Source
   copy:
-    src:           ../ansible_demo_app/app/
+    src:           ansible_demo_app/app/
     dest:          /var/www/demo
     mode:          0755
   notify:          restart apache2
+  tags:            [ 'configure' ]
+
+- name:            copy demo.wsgi
+  template:
+    src:           demo.wsgi.j2
+    dest:          /var/www/demo
+    mode:          0755
+  notify:          restart apache2
+  tags:            [ 'configure' ]
 
 - name:            copy apache virtual host config
   copy:
-    src:           ../ansible_demo_app/demo.conf
+    src:           ansible_demo_app/app/demo.conf
     dest:          /etc/apache2/sites-available
     mode:          0755
   notify:          restart apache2
+  tags:            [ 'configure' ]
 
 - name:            setup python virtual environment
   pip:
     requirements:  /var/www/demo/requirements.txt
     virtualenv:    /var/www/demo/.venv
   notify:          restart apache2
-- wait_for:        port=80
+  tags:            [ 'system' ]
+
+- name:            activate the demo apache site
+  file:
+    src:           /etc/apache2/sites-available/demo.conf
+    dest:          /etc/apache2/sites-enabled/demo.conf
+    state:         link
+  notify:          restart apache2
+  tags:            [ 'configure' ]

@@ -6,6 +6,7 @@
     state:         present
   with_items:
     - loadbalancer
+  tags:            [ 'configure' ]
 
 - name:            Install Tools
   apt:
@@ -13,35 +14,49 @@
     name:
       - python-httplib2
     state:         present
-    update_cache:  yes
+  tags:            [ 'packages' ]
 
 - name:            Install nginx
   apt:
     force_apt_get: yes
     name:          nginx
     state:         present
-    update_cache:  yes
+  tags:            [ 'packages' ]
+
+# - name:          debug
+#   debug:
+#     msg:         "{{ sites }}"
+#   tags:          [ 'configure' ]
 
 - name:            configure nginx site
   template:
     src:           nginx.conf.j2
-    dest:          /etc/nginx/sites-available/demo
+    dest:          /etc/nginx/sites-available/{{ item.key }}
     mode:          0644
+  with_dict:       "{{ sites }}"
   notify:          restart nginx
-- wait_for:        port=80
+  tags:            [ 'configure' ]
 
-- name:            deactivate default nginx sites-available
+- name:            get active sites
+  shell:           ls -1 /etc/nginx/sites-enabled
+  register:        active
+  tags:            [ 'configure' ]
+
+- name:            de-activate sites
   file:
-    path:          /etc/nginx/sites-enabled/default
+    path:          /etc/nginx/sites-enabled/{{ item }}
     state:         absent
+  with_items:      active.stdout_lines
+  when:            item not in {{ sites }}
   notify:          restart nginx
 - wait_for:        port=80
 
 - name:            activate demo nginx site
   file:
-    src:           /etc/nginx/sites-available/demo
-    dest:          /etc/nginx/sites-enabled/demo
+    src:           /etc/nginx/sites-available/{{ item.key }}
+    dest:          /etc/nginx/sites-enabled/{{ item.key }}
     state:         link
+  with_dict:       "{{ sites }}"
   notify:          restart nginx
 
 - name:            ensure nginx started

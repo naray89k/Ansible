@@ -1,5 +1,7 @@
 ---
-- hosts:  web_server
-  become: true
+- hosts:        web_server
+  become:       true
+  gather_facts: false
   roles:
     - apache2
+    - demo_app

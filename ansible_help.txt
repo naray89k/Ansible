@@ -31,7 +31,6 @@ ansible -m command -a "hostname" all
 ==== command module is the default module which will be run by ansible.
 ansible -a "hostname" all
 ansible -a "netstat -an" dbserver
-
 =============
 ansible -m setup dbserver ---> to gather the facts of any ansible controlled hosts.
 
@@ -42,3 +41,8 @@ ansible-galaxy init nginx
 ansible-galaxy init apache2
 ansible-galaxy init demo_app
 ansible-galaxy init my_sql
+
+==============================
+
+ansible-playbook site.yml --list-tags
+ansible-playbook site.yml

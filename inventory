@@ -1,11 +1,11 @@
 [load_balancer]
-loadbalancer ansible_host=52.56.36.221 ansible_ssh_private_key_file=/Users/narayanan/Learning/Terraform/1_EC2_setup_in_local_vpc/mykey ansible_user=ubuntu become_user=root
+loadbalancer ansible_host=35.178.132.83 ansible_ssh_private_key_file=/Users/narayanan/Learning/Terraform/1_EC2_setup_in_local_vpc/mykey ansible_user=ubuntu become_user=root
 
 [web_server]
-webserver ansible_host=3.10.59.179 ansible_ssh_private_key_file=/Users/narayanan/Learning/Terraform/1_EC2_setup_in_local_vpc/mykey ansible_user=ubuntu become_user=root
+webserver ansible_host=35.178.89.136 ansible_ssh_private_key_file=/Users/narayanan/Learning/Terraform/1_EC2_setup_in_local_vpc/mykey ansible_user=ubuntu become_user=root
 
 [database]
-dbserver ansible_host=3.8.164.229 ansible_ssh_private_key_file=/Users/narayanan/Learning/Terraform/1_EC2_setup_in_local_vpc/mykey ansible_user=ubuntu become_user=root
+dbserver ansible_host=3.10.173.145 ansible_ssh_private_key_file=/Users/narayanan/Learning/Terraform/1_EC2_setup_in_local_vpc/mykey ansible_user=ubuntu become_user=root
 
 [control_server]
 control ansible_connection=local

@@ -1,5 +1,8 @@
 ---
-- hosts:  database
-  become: yes
+- hosts:            database
+  become:           yes
   roles:
-    - my_sql
+    - role:         my_sql
+      db_user_name: "{{ db_user }}"
+      db_user_pass: "{{ db_pass }}"
+      db_user_host: '%'
