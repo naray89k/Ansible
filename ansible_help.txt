@@ -46,3 +46,37 @@ ansible-galaxy init my_sql
 
 ansible-playbook site.yml --list-tags
 ansible-playbook site.yml
+
+To skip tags and run:
+---------------------
+ansible-playbook site.yml --skip-tags "packages"
+
+To run only the matching tags:
+-------------------------------
+ansible-playbook site.yml --tags "packages"
+
+When you use the below command ansible ask you for yes/no for each step and run according to our input
+-------------------------------------------------------------------------------------------------------
+ansible-playbook site.yml --step
+
+This command will list the tasks in Ansible in the play-book file
+------------------------------------------------------------------
+ansible-playbook site.yml --list-tasks
+
+Then: to start at exactly which step, you want to start the run.
+-----------------------------------------------------------------
+ansible-playbook site.yml --start-at-task "copy demo app Source"
+
+When large numbers of hosts are configured via Ansible, some could possibly be failed due to various reasons.
+Those failed steps alone can retried.
+-------------------------------------
+ansible-playbook site.yml --limit @/home/ansible/site.retry
+
+
+SYNTAX CHECK:
+-------------
+ansible-playbook --syntax-check site.yml
+
+DRY-RUN CHECK:
+-------------
+ansible-playbook --check site.yml

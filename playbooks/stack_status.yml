@@ -1,50 +1,55 @@
 ---
-- hosts:          loadbalancer
-  become:         true
-  gather_facts:   false
+- hosts:            loadbalancer
+  become:           true
+  gather_facts:     false
   tasks:
-    - name:       verify nginx service
-      command:    service nginx status
+    - name:         verify nginx service
+      command:      service nginx status
+      changed_when: false
 
-    - name:       verify nginx is listening on 80
-      wait_for:   port=80 timeout=1
+    - name:         verify nginx is listening on 80
+      wait_for:     port=80 timeout=1
 
-- hosts:          webserver
-  become:         true
-  gather_facts:   false
+- hosts:            webserver
+  become:           true
+  gather_facts:     false
   tasks:
-    - name:       verify apache2 service
-      command:    service apache2 status
+    - name:         verify apache2 service
+      command:      service apache2 status
+      changed_when: false
 
-    - name:       verify apache2 is listening on 80
-      wait_for:   port=80 timeout=1
 
-- hosts:          database
-  become:         true
-  gather_facts:   false
+    - name:         verify apache2 is listening on 80
+      wait_for:     port=80 timeout=1
+
+- hosts:            database
+  become:           true
+  gather_facts:     false
   tasks:
-    - name:       verify mysql service
-      command:    service mysql status
+    - name:         verify mysql service
+      command:      service mysql status
+      changed_when: false
 
-    - name:       verify mysql is listening on 3306
-      wait_for:   port=3306 timeout=1
 
-- hosts:          loadbalancer
-  become:         true
-  gather_facts:   false
+    - name:         verify mysql is listening on 3306
+      wait_for:     port=3306 timeout=1
+
+- hosts:            loadbalancer
+  become:           true
+  gather_facts:     false
   tasks:
-    - name:       verify backend index response
-      uri:        url=http://webserver return_content=yes
-      register:   app_index
+    - name:         verify backend index response
+      uri:          url=http://webserver return_content=yes
+      register:     app_index
 
-    - fail:       msg="index failed to return content"
-      when:       "'Hello, from sunny' not in item.content"
-      with_items: "{{app_index.results}}"
+    - fail:         msg="index failed to return content"
+      when:         "'Hello, from sunny' not in item.content"
+      with_items:   "{{app_index.results}}"
 
-    - name:       verify backend db response
-      uri:        url=http://webserver/db return_content=yes
-      register:   app_db
+    - name:         verify backend db response
+      uri:          url=http://webserver/db return_content=yes
+      register:     app_db
 
-    - fail:       msg="db failed to return content"
-      when:       "'Database Connected from' not in item.content"
-      with_items: "{{app_db.results}}"
+    - fail:         msg="db failed to return content"
+      when:         "'Database Connected from' not in item.content"
+      with_items:   "{{app_db.results}}"

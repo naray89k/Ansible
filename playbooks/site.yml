@@ -7,7 +7,9 @@
     apt:
       update_cache:     yes
       cache_valid_time: 86400
+    tags:
+      - packages
 
-- include:              database.yml
-- include:              webserver.yml
-- include:              load_balancer.yml
+- import_playbook:      database.yml
+- import_playbook:      webserver.yml
+- import_playbook:      load_balancer.yml
